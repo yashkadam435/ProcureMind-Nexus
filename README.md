@@ -2,6 +2,8 @@
 
 > **Autonomous Multi-Agent Procurement Intelligence Platform**
 > Built for the AI Agent Olympics Hackathon — Milan AI Week 2026
+>
+> 🚀 **[Live Demo: procuremind-nexus.onrender.com](https://procuremind-nexus.onrender.com)**
 
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
