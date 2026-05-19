@@ -127,7 +127,7 @@ Every decision is **auditable**, **EU AI Act compliant**, and governed by **huma
 
 ### Prerequisites
 - Python 3.11+
-- Google Gemini API Key ([Get one free](https://aistudio.google.com/apikey))
+- Google Gemini API Key
 
 ### 1. Clone the Repository
 ```bash
