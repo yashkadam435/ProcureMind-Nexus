@@ -351,8 +351,15 @@ function startSpeechmaticsStream(input) {
       // Stream audio via ScriptProcessor
       const processor = _audioContext.createScriptProcessor(4096, 1, 1);
       const source = _audioContext.createMediaStreamSource(_mediaStream);
+      
+      // Prevent audio feedback loop (echo) which causes OS to mute the mic
+      const gainNode = _audioContext.createGain();
+      gainNode.gain.value = 0;
+      
       source.connect(processor);
-      processor.connect(_audioContext.destination);
+      processor.connect(gainNode);
+      gainNode.connect(_audioContext.destination);
+      
       processor.onaudioprocess = (e) => {
         if (ws.readyState === WebSocket.OPEN) {
           const float32 = e.inputBuffer.getChannelData(0);
@@ -360,6 +367,7 @@ function startSpeechmaticsStream(input) {
         }
       };
       ws._processor = processor;
+      ws._gain = gainNode;
       ws._source = source;
     };
 
