@@ -8,7 +8,12 @@ import hashlib
 from datetime import datetime
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent / "procuremind.db"
+import os
+
+if os.environ.get("VERCEL") or os.environ.get("APP_ENV") == "production":
+    DB_PATH = Path("/tmp/procuremind.db")
+else:
+    DB_PATH = Path(__file__).parent / "procuremind.db"
 
 
 def get_connection():
