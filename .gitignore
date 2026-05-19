@@ -4,6 +4,10 @@
 api_key
 speechmatics-api.txt
 
+# AI Prompts / Internal Docs
+Agentic_AI_Project_BRD_and_Prompts.md
+PROCUREMIND_NEXUS_COMPLETE_DOCUMENTATION.md
+
 # Python
 __pycache__/
 *.py[cod]
