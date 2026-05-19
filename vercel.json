@@ -14,21 +14,10 @@
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/main.py"
-    },
-    {
-      "src": "/(css|js)/(.*)",
-      "dest": "frontend/$1/$2"
-    },
-    {
-      "src": "/",
-      "dest": "frontend/index.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
-    }
+    { "src": "/api/(.*)", "dest": "backend/main.py" },
+    { "src": "/static/(.*)", "dest": "/frontend/$1" },
+    { "src": "^/$", "dest": "/frontend/index.html" },
+    { "src": "/(.*\\.html)", "dest": "/frontend/$1" },
+    { "src": "/(.*\\.png|.*\\.jpg|.*\\.svg|.*\\.ico)", "dest": "/frontend/$1" }
   ]
 }
