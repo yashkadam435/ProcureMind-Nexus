@@ -1,0 +1,11 @@
+# ProcureMind Nexus — Backend Dependencies
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-multipart
+python-dotenv
+aiofiles
+httpx
+google-genai
+tenacity

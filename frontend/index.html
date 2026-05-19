@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ProcureMind Nexus — Autonomous Multi-Agent Procurement Intelligence Network with x402 Commerce">
+  <title>ProcureMind Nexus — AI Procurement Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    /* Page-specific inline overrides */
+    .sidebar-nav .nav-item[data-page] { user-select: none; }
+    .page-transition { animation: fadeIn 0.35s ease-out; }
+    .topbar-title-icon { width:28px; height:28px; color: var(--accent); }
+    .connection-dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:6px; }
+    .connection-dot.online { background: var(--success); box-shadow: 0 0 8px var(--success); }
+    .connection-dot.offline { background: var(--danger); box-shadow: 0 0 8px var(--danger); }
+    .version-tag { font-size:10px; background:rgba(99,102,241,0.15); color:var(--accent); padding:2px 8px; border-radius:10px; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+
+  <div class="app-layout">
+    <!-- === SIDEBAR === -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="logo">
+          <i data-lucide="brain-circuit" style="width:22px;height:22px;color:white;"></i>
+        </div>
+        <div>
+          <h1>ProcureMind</h1>
+          <span>Nexus v1.0</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">Operations</div>
+        <a class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+          <i data-lucide="layout-dashboard"></i> Command Center
+        </a>
+        <a class="nav-item" data-page="procure" onclick="navigateTo('procure')">
+          <i data-lucide="shopping-cart"></i> Procurement
+        </a>
+        <a class="nav-item" data-page="contracts" onclick="navigateTo('contracts')">
+          <i data-lucide="file-search"></i> Contracts
+        </a>
+
+        <div class="nav-section">Finance</div>
+        <a class="nav-item" data-page="treasury" onclick="navigateTo('treasury')">
+          <i data-lucide="landmark"></i> Treasury
+        </a>
+
+        <div class="nav-section">System</div>
+        <a class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+          <i data-lucide="settings"></i> Settings
+          <span class="nav-badge" id="pending-badge" style="display:none;">0</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="avatar">PM</div>
+        <div class="user-info">
+          <div class="user-name">Procurement Admin</div>
+          <div class="user-role"><span class="connection-dot online" id="conn-dot"></span>Connected</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- === MAIN === -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <h2 id="page-title">Command Center</h2>
+          <p id="page-subtitle">Real-time procurement intelligence overview</p>
+        </div>
+        <div class="search-container" id="search-container">
+          <i data-lucide="search" class="search-icon" style="width:16px;height:16px;"></i>
+          <input type="text" id="global-search" placeholder="Search workflows, suppliers, contracts…" autocomplete="off">
+          <kbd>/</kbd>
+        </div>
+        <div class="topbar-right">
+          <span class="version-tag" id="api-status">● Connecting…</span>
+          <div class="notif-btn" id="notif-btn">
+            <button class="topbar-btn" onclick="toggleNotifications()" title="Notifications">
+              <i data-lucide="bell"></i>
+            </button>
+            <span class="notif-badge" id="notif-count" style="display:none;">0</span>
+            <div class="notif-dropdown" id="notif-dropdown">
+              <div class="notif-header">
+                <h4>Notifications</h4>
+                <button class="btn btn-sm btn-secondary" onclick="clearNotifications()" style="padding:3px 8px;font-size:10px;">Clear</button>
+              </div>
+              <div id="notif-list"><div class="notif-empty">No notifications yet</div></div>
+            </div>
+          </div>
+          <button class="topbar-btn" onclick="location.reload()" title="Refresh">
+            <i data-lucide="refresh-cw"></i>
+          </button>
+          <button class="topbar-btn" id="mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" title="Menu">
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="page-content page-transition" id="page-content">
+        <div class="loading-spinner"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Keyboard Shortcuts Overlay -->
+  <div class="shortcuts-overlay" id="shortcuts-overlay" onclick="if(event.target===this)toggleShortcuts()">
+    <div class="shortcuts-modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:16px;font-weight:700;">Keyboard Shortcuts</h3>
+        <button class="topbar-btn" onclick="toggleShortcuts()" style="width:28px;height:28px;"><i data-lucide="x" style="width:14px;height:14px;"></i></button>
+      </div>
+      <div class="shortcut-row"><span class="shortcut-desc">Command Center</span><div class="shortcut-keys"><kbd>1</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Procurement</span><div class="shortcut-keys"><kbd>2</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Contracts</span><div class="shortcut-keys"><kbd>3</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Treasury</span><div class="shortcut-keys"><kbd>4</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Settings</span><div class="shortcut-keys"><kbd>5</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Focus search</span><div class="shortcut-keys"><kbd>/</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Show shortcuts</span><div class="shortcut-keys"><kbd>?</kbd></div></div>
+      <div class="shortcut-row"><span class="shortcut-desc">Close dialog</span><div class="shortcut-keys"><kbd>Esc</kbd></div></div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- JS -->
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/router.js"></script>
+  <script src="/static/js/pages/dashboard.js"></script>
+  <script src="/static/js/pages/procure.js"></script>
+  <script src="/static/js/pages/contracts.js"></script>
+  <script src="/static/js/pages/treasury.js"></script>
+  <script src="/static/js/pages/settings.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
